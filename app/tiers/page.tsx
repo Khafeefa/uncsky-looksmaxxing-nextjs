@@ -1,10 +1,16 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function TiersPage() {
+  const [loading, setLoading] = useState<string | null>(null);
+
   const tiers = [
     {
       name: 'Free',
       price: '$0',
+      priceId: null,
       features: [
         'Access to basic looksmaxxing tips',
         'Community forum access',
@@ -14,6 +20,7 @@ export default function TiersPage() {
     {
       name: 'Ascension',
       price: '$34.99/month',
+      priceId: 'price_1SfrsaLxwrmGnh3pDeGpmYyg',
       features: [
         'All Free features',
         'Personalized improvement plans',
@@ -26,6 +33,7 @@ export default function TiersPage() {
     {
       name: 'Elite',
       price: '$49.99/month',
+      priceId: 'price_1SfrsvLxwrmGnh3pSNNVD5LN',
       features: [
         'All Ascension features',
         'One-on-one coaching sessions',
@@ -35,6 +43,41 @@ export default function TiersPage() {
       ],
     },
   ];
+
+  const handleSubscribe = async (tier: typeof tiers[0]) => {
+    if (!tier.priceId) {
+      // Free tier - just redirect to signup
+      window.location.href = '/login';
+      return;
+    }
+
+    try {
+      setLoading(tier.name);
+      
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          priceId: tier.priceId,
+          tier: tier.name,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL returned');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to start checkout. Please try again.');
+      setLoading(null);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -85,13 +128,19 @@ export default function TiersPage() {
                 ))}
               </ul>
               <button
+                onClick={() => handleSubscribe(tier)}
+                disabled={loading === tier.name}
                 className={`w-full py-3 rounded-lg font-bold transition ${
                   tier.popular
                     ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-800 hover:bg-gray-700 text-white'
-                }`}
+                } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                {tier.price === '$0' ? 'Get Started' : 'Subscribe Now'}
+                {loading === tier.name
+                  ? 'Loading...'
+                  : tier.price === '$0'
+                  ? 'Get Started'
+                  : 'Subscribe Now'}
               </button>
             </div>
           ))}
