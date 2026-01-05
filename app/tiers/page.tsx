@@ -20,8 +20,7 @@ export default function TiersPage() {
     {
       name: 'Ascension',
       price: '$34.99/month',
-      priceId: 'price_1SfrsaLxwrmGnh3pDeGpmYyg',
-      features: [
+    priceId: 'price_1SgCeNLxwrmGnh3pOmKKVUmO',      features: [
         'All Free features',
         'Personalized improvement plans',
         'Access to premium courses',
@@ -33,8 +32,7 @@ export default function TiersPage() {
     {
       name: 'Elite',
       price: '$49.99/month',
-      priceId: 'price_1SfrsvLxwrmGnh3pSNNVD5LN',
-      features: [
+    priceId: 'price_1SgCdNLxwrmGnh3pOZ1ItlXq',      features: [
         'All Ascension features',
         'One-on-one coaching sessions',
         'Advanced analytics',
