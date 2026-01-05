@@ -13,7 +13,7 @@ export default function TiersPage() {
     },
     {
       name: 'Ascension',
-      price: '$9.99/month',
+      price: '$34.99/month',
       features: [
         'All Free features',
         'Personalized improvement plans',
@@ -25,7 +25,7 @@ export default function TiersPage() {
     },
     {
       name: 'Elite',
-      price: '$29.99/month',
+      price: '$49.99/month',
       features: [
         'All Ascension features',
         'One-on-one coaching sessions',
